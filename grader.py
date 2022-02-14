@@ -7,8 +7,8 @@ currDir = os.getcwd()
 
 subDir = currDir+'/sub'
 testSuite = currDir+'/tests'
-testFileName = '/fancy_power_tests.cpp'
-testCmd = './fancy-power-tests'
+testFileName = '/fancy_power_tests.cpp' #.cpp test file. Example from problem 3
+testCmd = './fancy-power-tests' #command to run test
 
 
 outputPath = currDir+'/output.txt'
@@ -54,7 +54,7 @@ for filename in sorted(os.listdir(subDir)): #Loop through zipped submissions
     	os.system("make clean")
     	os.system("cmake .")
     	os.system("make")
-    	command = "./{0} >> {1}".format(testCmd, outputPath)
+    	command = "./{0} >> {1}".format(testCmd, outputPath) #Append terminal output to output.txt
     	os.system(command)
     	if deleteDir:
     		shutil.rmtree(tempDir)
