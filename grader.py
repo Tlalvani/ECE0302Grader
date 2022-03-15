@@ -1,7 +1,8 @@
 import os
 import shutil
 
-deleteDir = False
+deleteDir = False #Enable to delete student's unzipped directory 
+valgrind = False #Enable to append valgrind output
 
 currDir = os.getcwd()
 
@@ -56,7 +57,12 @@ for filename in sorted(os.listdir(subDir)): #Loop through zipped submissions
 		os.system("make clean")
 		os.system("cmake .")
 		os.system("make")
-		command = "./{0} >> {1}".format(testCmd, outputPath) #Append terminal output to output.txt
+		command = "{0} >> {1}".format(testCmd, outputPath) #Append terminal output to output.txt
 		os.system(command)
+		
+		if valgrind:
+			command = "valgrind {0} >> {1} 2>&1".format(testCmd, outputPath) #Append terminal output to output.txt
+			os.system(command)
+
 		if deleteDir:
 			shutil.rmtree(tempDir)
