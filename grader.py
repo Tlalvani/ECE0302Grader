@@ -3,13 +3,14 @@ import shutil
 
 deleteDir = False #Enable to delete student's unzipped directory 
 valgrind = False #Enable to append valgrind output
+enableError = False #Enable to append stderr output
 
-currDir = os.getcwd()
-
-subDir = currDir+'/sub'
-testSuite = currDir+'/tests'
 testFileName = '/FindPalindrome_test.cpp' #.cpp test file. Example from project 2
 testCmd = './FindPalindrome-tests' #command to run test
+
+currDir = os.getcwd()
+subDir = currDir+'/sub'
+testSuite = currDir+'/tests'
 
 
 outputPath = currDir+'/output.txt'
@@ -18,7 +19,7 @@ output.close()
     	
 for filename in sorted(os.listdir(subDir)): #Loop through zipped submissions
 	if filename == "README.md":
-			continue
+		continue
 	f = os.path.join(subDir, filename)
     # checking if it is a file
 	if os.path.isfile(f):
@@ -54,10 +55,14 @@ for filename in sorted(os.listdir(subDir)): #Loop through zipped submissions
     	
 		cd = "cd {0}".format(tempDir)
 		os.chdir(tempDir)
-		os.system("make clean")
 		os.system("cmake .")
 		os.system("make")
-		command = "{0} >> {1}".format(testCmd, outputPath) #Append terminal output to output.txt
+
+		if enableError:
+			command = "{0} >> {1} 2>&1".format(testCmd, outputPath) #Append terminal output to output.txt
+		else:
+			command = "{0} >> {1}".format(testCmd, outputPath) #Append terminal output to output.txt
+
 		os.system(command)
 		
 		if valgrind:
